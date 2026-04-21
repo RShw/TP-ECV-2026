@@ -1,13 +1,16 @@
 import { View, Text } from 'react-native'
 import React, { useContext } from 'react'
-import UserItem from '../components/UserItem'
+import UserItem from '@/components/UserItem'
 import { UserListContext } from '@/provider/UserListProvider'
+import { useLocalSearchParams } from 'expo-router'
 
 const User = () => {
 
     const ProviderValue = useContext(UserListContext)
 
-    const user = ProviderValue.userList.find(user => user.id === ProviderValue.activeUser)
+    const { id } = useLocalSearchParams()
+
+    const user = ProviderValue.userList.find(user => user.id === Number(id))
 
   return (
     <View>

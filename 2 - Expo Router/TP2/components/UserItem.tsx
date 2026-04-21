@@ -1,21 +1,16 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import React, { useContext } from 'react'
-import { TUser } from '../app/index'
+import React from 'react'
 import { router } from 'expo-router'
-import { UserListContext } from '@/provider/UserListProvider'
+import { TUser } from '@/app'
 
 const UserItem = ({ user }: { user: TUser }) => {
 
-    const ProviderValue = useContext(UserListContext)
-
     const handlePress = () => {
-        ProviderValue.setActiveUser(user.id)
-        router.navigate(`/user`)
+        router.navigate(`/user/${user.id}`)
     }
 
     const handleUpdate = () => {
-        ProviderValue.setActiveUser(user.id)
-        router.navigate(`/settings`)
+        router.navigate(`/settings/${user.id}/${user.name}/${user.email}`)
     }
 
   return (

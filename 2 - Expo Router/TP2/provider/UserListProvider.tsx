@@ -8,8 +8,6 @@ export type TUser = {
 
 export type TUserListContext = {
   userList: TUser[];
-  activeUser: number | undefined;
-  setActiveUser: (id: number) => void;
   addUser: (user: TUser) => void;
   updateUser: (user: TUser) => void;
 }
@@ -43,15 +41,13 @@ export const LIST_USERS: TUser[] = [
 //{userList: []}: valeur par défaut du contexte
 export const UserListContext = createContext<TUserListContext>({
     userList: [],
-    activeUser: undefined,
-    setActiveUser: () => {},
     addUser: () => {},
     updateUser: () => {},
 })
 
 const UserListProvider = ({children}: {children: React.ReactNode}) => {
 
-    const [activeUser, setActiveUser] = useState<number | undefined>(undefined)
+    // const [activeUser, setActiveUser] = useState<number | undefined>(undefined)
     const [listUser, setListUser] = useState<TUser[]>(LIST_USERS)
 
     const addUser = (user: TUser) => {
@@ -62,11 +58,9 @@ const UserListProvider = ({children}: {children: React.ReactNode}) => {
         setListUser(listUser.map(u => u.id === user.id ? user : u))
     }
 
-    console.log("activeUser", activeUser)
-
   return (
     //J'utilise le contexte avec "createContext", pour créer un provider
-    <UserListContext.Provider value={{userList: listUser, activeUser, setActiveUser, addUser, updateUser}}>
+    <UserListContext.Provider value={{userList: listUser, addUser, updateUser}}>
         {children}
     </UserListContext.Provider>
   )
