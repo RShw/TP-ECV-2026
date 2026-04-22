@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { router } from 'expo-router'
-import { TUser } from '@/providers/UserProvider'
+import { TUser } from '@/providers/StateProvider'
 
 const UserItem = ({ user }: { user: TUser }) => {
 

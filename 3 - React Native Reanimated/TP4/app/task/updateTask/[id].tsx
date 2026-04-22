@@ -1,7 +1,7 @@
 import { View, Text, FlatList, TouchableOpacity, TextInput, Button, Modal, StyleSheet } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { router, useLocalSearchParams } from 'expo-router'
-import { TUser, UserContext } from '@/providers/UserProvider'
+import { TUser, UserContext } from '@/providers/StateProvider'
 import UserItem from '@/components/UserItem'
 import { TaskContext, TTask } from '@/providers/TaskProvider'
 

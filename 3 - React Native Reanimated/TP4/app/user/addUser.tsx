@@ -1,7 +1,7 @@
 import { View, Button } from 'react-native'
 import React, { useContext, useState } from 'react'
 import UserInput from '@/components/UserInput'
-import { UserContext } from '@/providers/UserProvider'
+import { UserContext } from '@/providers/StateProvider'
 import { router } from 'expo-router'
 
 const AddUser = () => {

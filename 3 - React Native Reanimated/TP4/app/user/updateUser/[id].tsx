@@ -1,13 +1,15 @@
-import { View, Button } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import { Button } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import UserInput from '@/components/UserInput'
 import { router, useLocalSearchParams } from 'expo-router'
-import { UserContext } from '@/providers/UserProvider'
+import { useUserContext } from '@/providers/UserProvider'
 
 
 const UpdateUser = () => {
 
-  const {listUser, updateUser} = useContext(UserContext)
+  // const {listUser, updateUser} = useContext(UserContext)
+  const { listUser, updateUser } = useUserContext()
+  
   const { id } = useLocalSearchParams()
 
   const [name, setName] = useState('')
@@ -35,7 +37,7 @@ const UpdateUser = () => {
   }
   
   return (
-    <View>
+    <>
         <UserInput 
         name={name}
         email={email}
@@ -43,7 +45,7 @@ const UpdateUser = () => {
         setEmail={setEmail}
         />
         <Button title="Update User" onPress={updateUserFunction} />
-    </View>
+    </>
   )
 }
 

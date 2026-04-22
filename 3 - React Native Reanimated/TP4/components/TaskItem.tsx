@@ -2,7 +2,7 @@ import { Text, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { router } from 'expo-router'
 import { TTask } from '@/providers/TaskProvider'
-import { TUser, UserContext } from '@/providers/UserProvider'
+import { TUser, UserContext } from '@/providers/StateProvider'
 
 const TaskItem = ({ task }: { task: TTask }) => {
 

@@ -1,6 +1,6 @@
 import { View, FlatList, StyleSheet, Button } from 'react-native'
 import React, { useContext } from 'react'
-import { UserContext } from '@/providers/UserProvider'
+import { UserContext } from '@/providers/StateProvider'
 import UserItem from '@/components/UserItem'
 import { router } from 'expo-router'
 

@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import UserProvider from "@/providers/UserProvider";
+import UserProvider from "@/providers/StateProvider";
 
 export default function RootLayout() {
   return (

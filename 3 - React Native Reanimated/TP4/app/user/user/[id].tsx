@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useLocalSearchParams } from 'expo-router'
-import { UserContext } from '@/providers/UserProvider'
+import { UserContext } from '@/providers/StateProvider'
 import UserItem from '@/components/UserItem'
 
 const User = () => {
