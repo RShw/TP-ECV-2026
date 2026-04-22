@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React, { useEffect, useLayoutEffect } from 'react'
+import { View, StyleSheet } from 'react-native'
+import React, { useEffect } from 'react'
 import { router } from 'expo-router'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withRepeat, withSequence, withDelay } from 'react-native-reanimated'
 
@@ -8,12 +8,6 @@ const DISTANCE = 100
 const LONG_DISTANCE = DISTANCE * 2
 
 const Index = () => {
-
-    // useLayoutEffect(() => {
-    //     setTimeout(() => {
-    //         router.navigate('/task')
-    //     }, 2500)
-    // }, [])
 
     const posX = useSharedValue(0)
     const posY = useSharedValue(0)
@@ -30,13 +24,19 @@ const Index = () => {
           withTiming(DISTANCE, { duration: ANIMATION_DURATION }),
           withDelay(ANIMATION_DURATION, withTiming(-DISTANCE, { duration: ANIMATION_DURATION })),
           withDelay(ANIMATION_DURATION, withTiming(0, { duration: ANIMATION_DURATION })),
-        ), -1, false)
+        ), 
+        1, 
+        false,
+        () => {
+          router.navigate('/task')
+        }
+      )
       posY.value = withRepeat(
         withSequence(
           withDelay(ANIMATION_DURATION, withTiming(LONG_DISTANCE, { duration: ANIMATION_DURATION })),
           withDelay(ANIMATION_DURATION, withTiming(0, { duration: ANIMATION_DURATION })),
           withTiming(0, { duration: ANIMATION_DURATION }),
-        ), -1, false)
+        ), 1, false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     height: 100,
     backgroundColor: 'lightblue',
     borderRadius: 12,
+    top: -50
   },
 })
 
