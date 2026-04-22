@@ -1,6 +1,6 @@
 import { View, Button, TextInput } from 'react-native'
 import React, { useContext, useState } from 'react'
-import { TaskContext } from '@/providers/TaskProvider'
+import { TaskContext, TTask } from '@/providers/TaskProvider'
 import { router } from 'expo-router'
 
 const AddTask = () => {
@@ -10,8 +10,12 @@ const AddTask = () => {
     const [task, setTask] = useState('')
 
     const addTaskLocal = () => {
-        console.log("addTaskLocal", task)
-        addTask(task)
+        const newTask: TTask = {
+            id: Math.random().toString(),
+            id_user: undefined,
+            task: task,
+        }
+        addTask(newTask)
         setTask('')
         router.navigate('../')
     }

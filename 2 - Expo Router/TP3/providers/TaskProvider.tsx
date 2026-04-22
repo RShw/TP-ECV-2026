@@ -1,12 +1,44 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 
-const INIT_TASK_LIST = Array.from({ length: 10 }, (_, i) => `Task ${i + 1}`);
+const INIT_TASK_LIST: TTask[] = [
+  {
+    id: "1",
+    id_user: undefined,
+    task: "Task 1",
+  },
+  {
+    id: "2",
+    id_user: undefined,
+    task: "Task 2",
+  },
+  {
+    id: "3",
+    id_user: undefined,
+    task: "Task 3",
+  },
+  {
+    id: "4",
+    id_user: undefined,
+    task: "Task 4",
+  },
+  {
+    id: "5",
+    id_user: undefined,
+    task: "Task 5",
+  },
+];
+
+export type TTask = {
+  id: string;
+  id_user?: string;
+  task: string;
+}
 
 type TTaskContext = {
-  taskList: string[];
-  addTask: (task: string) => void;
-  updateTask: (task: string) => void;
-  deleteTask: (task: string) => void;
+  taskList: TTask[];
+  addTask: (task: TTask) => void;
+  updateTask: (task: TTask) => void;
+  deleteTask: (id: string) => void;
 }
 
 export const TaskContext = createContext<TTaskContext>({
@@ -18,19 +50,40 @@ export const TaskContext = createContext<TTaskContext>({
 
 const TaskProvider = ({ children }: { children: React.ReactNode }) => {
 
-    const [taskList, setTaskList] = useState<string[]>(INIT_TASK_LIST);
+    const [taskList, setTaskList] = useState<TTask[]>(INIT_TASK_LIST);
 
-    const addTask = (task: string) => {
+    useEffect(() => {
+      console.log("taskList", taskList)
+    }, [taskList])
+    
+
+    const addTask = (task: TTask) => {
         console.log("addTask provider", task)
         setTaskList([...taskList, task]);
     }
 
-    const updateTask = (task: string) => {
-        setTaskList(taskList.map(t => t === task ? task : t));
+    const updateTask = (task: Partial<TTask>) => {
+      console.log("task", task)
+      const previousTask: TTask | undefined = taskList.find(t => {
+        console.log("t", t)
+        return t.id === task.id
+      });
+      console.log("previousTask", previousTask)
+      if(!previousTask) {
+        return;
+      }
+      console.log("previousTask", previousTask)
+      const newTask = {
+        ...previousTask,
+        ...task,
+      } as TTask
+
+      console.log("newTask", newTask)
+      setTaskList(taskList.map(t => t.id === task.id ? newTask : t));
     }
     
-    const deleteTask = (task: string) => {
-        setTaskList(taskList.filter(t => t !== task));
+    const deleteTask = (id: string) => {
+      setTaskList(taskList.filter(t => t.id !== id));
     }
 
   return (

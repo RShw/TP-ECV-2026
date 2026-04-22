@@ -4,9 +4,9 @@ import TaskProvider from '@/providers/TaskProvider'
 
 const TaskLayout = () => {
   return (
-    <TaskProvider>
+      <TaskProvider>
         <Stack />
-    </TaskProvider>
+      </TaskProvider>
   )
 }
 
