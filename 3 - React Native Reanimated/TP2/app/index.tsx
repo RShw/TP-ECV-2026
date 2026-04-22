@@ -1,42 +1,39 @@
 import { View, StyleSheet } from 'react-native'
 import React, { useEffect } from 'react'
-import { router } from 'expo-router'
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, withRepeat, withSequence, withDelay } from 'react-native-reanimated'
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, withRepeat, withSequence, interpolate } from 'react-native-reanimated'
 
 const ANIMATION_DURATION = 1000
 const DISTANCE = 100
-const LONG_DISTANCE = DISTANCE * 2
 
 const Index = () => {
 
-    const posX = useSharedValue(0)
-    const posY = useSharedValue(0)
+    const animationCicle = useSharedValue(0)
   
     const animatedStyle = useAnimatedStyle(() => {
         return {
-            transform: [{ translateX: posX.value }, { translateY: posY.value }],
+            transform: [
+              { translateX: interpolate(
+                animationCicle.value,
+                [0, 1, 2, 4, 5, 6],
+                [0, DISTANCE, DISTANCE, -DISTANCE, -DISTANCE, 0]
+                )
+              }, 
+              {
+               translateY: interpolate(
+                animationCicle.value,
+                [0, 1, 2, 4, 5, 6],
+                [0, 0, DISTANCE, DISTANCE, 0, 0]
+               ) 
+              }],
         }
     })
 
     useEffect(() => {
-      posX.value = withRepeat(
+      animationCicle.value = withRepeat(
         withSequence(
-          withTiming(DISTANCE, { duration: ANIMATION_DURATION }),
-          withDelay(ANIMATION_DURATION, withTiming(-DISTANCE, { duration: ANIMATION_DURATION })),
-          withDelay(ANIMATION_DURATION, withTiming(0, { duration: ANIMATION_DURATION })),
-        ), 
-        1, 
-        false,
-        () => {
-          router.navigate('/task')
-        }
-      )
-      posY.value = withRepeat(
-        withSequence(
-          withDelay(ANIMATION_DURATION, withTiming(LONG_DISTANCE, { duration: ANIMATION_DURATION })),
-          withDelay(ANIMATION_DURATION, withTiming(0, { duration: ANIMATION_DURATION })),
-          withTiming(0, { duration: ANIMATION_DURATION }),
-        ), 1, false)
+          withTiming(0, { duration: 0 }),
+          withTiming(6, { duration: ANIMATION_DURATION * 7 }),
+        ), -1, false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
