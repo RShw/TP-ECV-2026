@@ -3,22 +3,22 @@ import React, { createContext, useEffect, useState } from 'react'
 const INIT_TASK_LIST: TTask[] = [
   {
     id: "1",
-    id_user: undefined,
+    id_user: "2",
     task: "Task 1",
   },
   {
     id: "2",
-    id_user: undefined,
+    id_user: "1",
     task: "Task 2",
   },
   {
     id: "3",
-    id_user: undefined,
+    id_user: "1",
     task: "Task 3",
   },
   {
     id: "4",
-    id_user: undefined,
+    id_user: "2",
     task: "Task 4",
   },
   {

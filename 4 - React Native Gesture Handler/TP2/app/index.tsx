@@ -14,7 +14,6 @@ const Index = () => {
       router.navigate('/user')
     }, [])
     
-  
     const animatedStyle = useAnimatedStyle(() => {
         return {
             transform: [
