@@ -8,6 +8,7 @@ import Animated, {
     useSharedValue,
     withSpring,
 } from 'react-native-reanimated'
+import { scheduleOnRN } from 'react-native-worklets'
 
 type TItem = {
     id: string;
@@ -39,7 +40,7 @@ const SwipeableItem = ({
                 translateX.value = event.translationX
             }
             if (event.translationX < -80) {
-                deleteItem()
+                scheduleOnRN(deleteItem)
             }
         })
         .onFinalize(() => {
@@ -48,7 +49,7 @@ const SwipeableItem = ({
 
     const gestureLongPress = Gesture.LongPress()
         .onStart(() => {
-            handleLongPress()
+            scheduleOnRN(handleLongPress)
         })
         .requireExternalGestureToFail(gesturePan)
 

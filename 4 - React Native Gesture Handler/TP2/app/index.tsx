@@ -2,6 +2,7 @@ import { View, StyleSheet } from 'react-native'
 import React, { useEffect } from 'react'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withRepeat, withSequence, interpolate } from 'react-native-reanimated'
 import { router } from 'expo-router'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 
 const ANIMATION_DURATION = 300
 const DISTANCE = 100
@@ -47,9 +48,13 @@ const Index = () => {
     
 
   return (
-    <View style={styles.container}>
-      <Animated.View style={[styles.square, animatedStyle]}/>
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView>
+        <View style={styles.container}>
+          <Animated.View style={[styles.square, animatedStyle]}/>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   )
 }
 
