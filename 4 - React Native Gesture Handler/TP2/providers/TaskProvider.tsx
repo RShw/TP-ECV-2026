@@ -53,32 +53,25 @@ const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     const [taskList, setTaskList] = useState<TTask[]>(INIT_TASK_LIST);
 
     useEffect(() => {
-      console.log("taskList", taskList)
     }, [taskList])
     
 
     const addTask = (task: TTask) => {
-        console.log("addTask provider", task)
         setTaskList([...taskList, task]);
     }
 
     const updateTask = (task: Partial<TTask>) => {
-      console.log("task", task)
       const previousTask: TTask | undefined = taskList.find(t => {
-        console.log("t", t)
         return t.id === task.id
       });
-      console.log("previousTask", previousTask)
       if(!previousTask) {
         return;
       }
-      console.log("previousTask", previousTask)
       const newTask = {
         ...previousTask,
         ...task,
       } as TTask
 
-      console.log("newTask", newTask)
       setTaskList(taskList.map(t => t.id === task.id ? newTask : t));
     }
     

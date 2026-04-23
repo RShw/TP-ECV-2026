@@ -13,14 +13,6 @@ export default function Index() {
     setTask("");
   };
 
-  useEffect(() => {
-    console.log(task);
-  }, [task]);
-
-  useEffect(() => {
-    console.log(taskList);
-  }, [taskList]);
-
   return (
     <View
       style={{

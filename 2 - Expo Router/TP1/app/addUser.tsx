@@ -12,10 +12,6 @@ const AddUser = () => {
 
     const ProviderValue = useContext(UserListContext)
 
-    useEffect(() => {
-        console.log(name, email)
-    }, [name, email])
-
     const addUser = () => {
         ProviderValue.addUser({
             id: ProviderValue.userList.length + 1,

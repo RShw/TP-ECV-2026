@@ -15,7 +15,6 @@ const UserList = () => {
 
     const handleLongPress = (id: number) => {
         router.navigate(`/user/user/${id}`)
-        console.log('long press', id)
     }
 
     const renderItemSwipeable = ({ item }: { item: TUser }) => {

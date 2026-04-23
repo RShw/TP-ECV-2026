@@ -62,8 +62,6 @@ const UserListProvider = ({children}: {children: React.ReactNode}) => {
         setListUser(listUser.map(u => u.id === user.id ? user : u))
     }
 
-    console.log("activeUser", activeUser)
-
   return (
     //J'utilise le contexte avec "createContext", pour créer un provider
     <UserListContext.Provider value={{userList: listUser, activeUser, setActiveUser, addUser, updateUser}}>

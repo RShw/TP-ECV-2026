@@ -27,7 +27,6 @@ export default function Index() {
 
   const gesture = Gesture.Pan()
     .onUpdate((e) => {
-      console.log(e.translationX);
       positionX.value = e.translationX;
     })
     .onEnd(() => {

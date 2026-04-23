@@ -8,8 +8,6 @@ const TaskList = () => {
 
     const { taskList } = useContext(TaskContext)
 
-    console.log(taskList)
-
     const navigateToAddTask = () => {
         router.navigate('/task/addtask')
     }

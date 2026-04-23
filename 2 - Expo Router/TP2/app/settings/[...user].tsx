@@ -10,21 +10,15 @@ const Settings = () => {
 
     const params = useLocalSearchParams()
 
-    console.log(params.user)
-
     useEffect(() => {
-      console.log(params.user[1])
       if(params?.user[0]) {
-        console.log(params?.user[0])
         setIdUSer(Number(params?.user[0]))
       }
       if(params?.user[1]) {
-        console.log(params?.user[1])
         const name = params?.user[1] as string
         setName(name)
       }
       if(params?.user[2]) {
-        console.log(params?.user[2])
         const email = params?.user[2] as string
         setEmail(email)
       }

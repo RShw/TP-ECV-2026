@@ -33,6 +33,7 @@ const UserItem = ({ user }: { user: TUser }) => {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
+        height: "100%",
         justifyContent: 'center',
         padding: 12,
         paddingVertical: 4

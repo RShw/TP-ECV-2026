@@ -9,8 +9,6 @@ const TaskList = () => {
 
     const { taskList, deleteTask } = useContext(TaskContext)
 
-    console.log(taskList)
-
     const navigateToAddTask = () => {
         router.navigate('/task/addtask')
     }
@@ -18,7 +16,6 @@ const TaskList = () => {
     const renderItemSwipeable = ({ item }: { item: TTask }) => {
     
         const handleLongPress = () => {
-            console.log('long press')
             if(item?.id_user) {
                 router.navigate(`/user/user/${item?.id_user}`)
             }
