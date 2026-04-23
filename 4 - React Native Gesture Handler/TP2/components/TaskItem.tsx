@@ -26,7 +26,7 @@ const TaskItem = ({ task }: { task: TTask }) => {
   return (
     <TouchableOpacity style={styles.container} onPress={handlePress}>
       <View style={styles.containerRow}>
-        <View style={styles.taskDescriptionContainer}>
+        <View>
           <Text>{task.task}</Text>
           {user && <Text>{user.name}</Text>}
         </View>
@@ -43,15 +43,12 @@ const TaskItem = ({ task }: { task: TTask }) => {
 const styles = StyleSheet.create({
     container: {
         padding: 12,
-        borderBottomWidth: 1,
         borderColor: "grey",
     },
     containerRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-    },
-    taskDescriptionContainer: {
     },
     userActionContainer: {
         backgroundColor: "white",
