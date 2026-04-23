@@ -1,10 +1,37 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useReducer } from "react";
 import { FlatList, Text, View, StyleSheet, ActivityIndicator } from "react-native";
 
 type TTask = {
   id: number;
   task: string;
 };
+
+type TStateTaskList = {
+  taskList: TTask[];
+  isLoading: boolean;
+  isEndList: boolean;
+  offSet: number;
+  cursorId: number;
+}
+
+const ACTIONS_TASK_LIST = {
+  BEGIN_LOADING: "BEGIN_LOADING",
+  END_LOADING: "END_LOADING",
+  END_LIST: "END_LIST",
+} as const;
+
+type TActionReducerTaskList = 
+  | {type: keyof typeof ACTIONS_TASK_LIST, payload?: undefined}
+  | {type: keyof typeof ACTIONS_TASK_LIST, payload: {newTaskList: TTask[]}}
+  | {type: keyof typeof ACTIONS_TASK_LIST, payload: {newTaskList: TTask[]}}
+
+const INIT_STATE_TASK_LIST = {
+  taskList: [],
+  isLoading: false,
+  isEndList: false,
+  offSet: 0,
+  cursorId: 0,
+}
 
 export default function Index() {
 
@@ -13,58 +40,73 @@ export default function Index() {
     task: `Task ${i + 1}`,
   })), [])
 
-  const [taskList, setTaskList] = useState<TTask[]>([]);
-  const [isLoading, setIsLoading] = useState(false)
-  const [isEndList, setIsEndList] = useState(false)
-  const [offSet, setOffSet] = useState(0)
-  const [cursorId, setcursorId] = useState(0)
-
-  const getTasksByOffSet = useCallback(() => {
-    /*** Remplace une action de fetching envers une API ***/
-    const tempArray = [...TASK_LIST];
-    const newTaskList = tempArray.slice(offSet, offSet + 20);
-    if(newTaskList.length < 20) {
-      setIsEndList(true)
+  const reducer = (state: TStateTaskList, action: TActionReducerTaskList ): TStateTaskList => {
+    switch(action.type) {
+      case ACTIONS_TASK_LIST.BEGIN_LOADING:
+        return {
+          ...state,
+          isLoading: true,
+        }
+      case ACTIONS_TASK_LIST.END_LOADING:
+        return {
+          ...state,
+          isLoading: false,
+          cursorId: state.cursorId + 20,
+          offSet: state.offSet + 20,
+          taskList: [...state.taskList, ...action?.payload?.newTaskList ?? []],
+        }
+      case ACTIONS_TASK_LIST.END_LIST: 
+        return {
+          ...state,
+          isLoading: false,
+          isEndList: true,
+          cursorId: state.cursorId + 20,
+          offSet: state.offSet + 20,
+          taskList: [...state.taskList, ...action?.payload?.newTaskList ?? []],
+        }
+      default:
+        return state
     }
-    setOffSet(offSet + 20);
-    /*** Fin de : remplace une action de fetching envers une API ***/
+  }
 
-    
-    setTaskList([...taskList, ...newTaskList]);
-    setIsLoading(false)
-  }, [TASK_LIST, offSet, taskList])
+  const [stateTaskList, dispatch] = useReducer(reducer, INIT_STATE_TASK_LIST)
 
+  const beginLoading = () => {
+    dispatch({type: ACTIONS_TASK_LIST.BEGIN_LOADING})
+  }
+
+  const endLoading = ({newTaskList}: {newTaskList: TTask[]}) => {
+    dispatch({type: ACTIONS_TASK_LIST.END_LOADING, payload: {newTaskList}})
+  }
+
+  const endList = ({newTaskList}: {newTaskList: TTask[]}) => {
+    dispatch({type: ACTIONS_TASK_LIST.END_LIST, payload: {newTaskList}})
+  }
 
   const getTasksByCursor = useCallback(() => {
     /*** Remplace une action de fetching envers une API ***/
     const tempArray = [...TASK_LIST];
-    const newTaskList = tempArray.filter(task => task?.id > cursorId).slice(0, 20);
-    if(newTaskList.length < 20) {
-      setIsEndList(true)
-    }
-    setcursorId(newTaskList[newTaskList.length - 1].id)
+    const newTaskList = tempArray.filter(task => task?.id > stateTaskList.cursorId).slice(0, 20);
     /*** Fin de : remplace une action de fetching envers une API ***/
-
-    
-    setTaskList([...taskList, ...newTaskList]);
-    setIsLoading(false)
-  }, [TASK_LIST, cursorId, taskList])
+    if(newTaskList.length < 20) {
+      endList({newTaskList})
+      return
+    }
+    endLoading({newTaskList})
+  }, [TASK_LIST, stateTaskList])
   
   const loadMore = useCallback(() => {
-    if(isEndList) return;
+    if(stateTaskList.isEndList) return;
 
-    setIsLoading(true)
-    setTimeout(() => {
-      console.log("loadMore");
-      getTasksByCursor();
-    }, 1500);
-  }, [getTasksByCursor, isEndList])
+    beginLoading()
+    getTasksByCursor();
+  }, [getTasksByCursor, stateTaskList])
 
   useEffect(() => {
-    if(taskList.length === 0) {
+    if(stateTaskList.taskList.length === 0) {
       loadMore();
     }
-  }, [taskList.length, loadMore])
+  }, [stateTaskList.taskList.length, loadMore])
 
   const TaskItem = ({ item }: { item: TTask }) => {
     return (
@@ -92,8 +134,8 @@ export default function Index() {
 
   const Footer = () => {
 
-    if(isEndList) return <EndListFooter />;
-    if(isLoading) return <LoadingFooter />;
+    if(stateTaskList.isEndList) return <EndListFooter />;
+    if(stateTaskList.isLoading) return <LoadingFooter />;
   }
   
 
@@ -104,7 +146,7 @@ export default function Index() {
       }}
     >
       <FlatList
-        data={taskList}
+        data={stateTaskList.taskList}
         onEndReached={loadMore}
         ListFooterComponent={Footer}
         renderItem={({ item }: { item: TTask }) => <TaskItem item={item} />}
