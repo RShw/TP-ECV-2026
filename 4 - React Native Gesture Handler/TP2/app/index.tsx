@@ -11,7 +11,9 @@ const Index = () => {
     const animationCicle = useSharedValue(0)
 
     useEffect(() => {
-      router.navigate('/user')
+      setTimeout(() => {
+        router.navigate('/user')
+      }, 10)
     }, [])
     
     const animatedStyle = useAnimatedStyle(() => {
